@@ -46,37 +46,7 @@ Create a project:
 Command : npm create-next-app@latest
 Start command : npm run dev
 
-React Server Components :
-
-NextJs works on React server components which means the pages are rendered only on the server and never on the client. The page.js file inside app is example for this. We have put "Executing..." in console but you can see that it comes from server and not from client.
-
-Thus, these are components that are rendered and converted to html in server and then send to the browser
-
-File Based Routing
-In File Based routing under the app folder create a folder and create a file page.js (Naming page.js is mandatory as it creates new route). Now search for http://localhost:3000/awesome, you'll get the output coded in page.js file.
-
-SSR : 
-
-In nextjs components are loaded in server side itself and are provided to browser so page loading is fast here and SEO is achieved as when user searches for any content in our page our page shows up as content is already loaded in server search engine crawlers fetches them and displays our page. Whereas in React only apps a part of html file is sent to browser and from there React builds the page and hence sometimes our page will be loaded and then comes up
-
-Navigating between pages:
-
-In NextJs when we navigate to a different page by clicking any link, then we get to the new page that is already pre rendered on the server and then client side receives and renders the to be rendered HTML code. This is possible by using Link component imported from next/link. If we use <a> tag then we go out of single page application and hard reload of page happens from server side. Whenever we click refresh icon in browser and if we see cross icon then it indicates hard reload of page
-
-Dynamic Routes:
-
-Add a closed bracket, named as placeholder (Eg : [slug], the page.js inside this will show same page for two routes, post-1 and post-2) and under that create your dynamic routes that will take you to the main route. 
-NextJs also provides a special prop here which is a params so that we can know on which route we are currently
-
-Layout file in NextJs: 
-In Next.js (specifically in the modern App Router), a layout.js file is a special file used to define a shared, reusable UI hierarchy across multiple pages in your application.
-
-Think of it as a master template. Instead of copying and pasting your <Header />, <Sidebar />, or <Footer /> components onto every single page, you define them once in a layout, and Next.js wraps your pages inside it automatically.
-
-Image:
-This is an inbuilt Image component in NextJs, If we are using it then NextJs Lazy loads our image, i.e, it will be fetched only if it is shown. If we have any main image in header that needs to be shown everytime, set priority property, this does not lazy load our image and LCP will be efficient in this case.
-
-Difference between React and NextJs:
+Difference between React and NextJs: (AI's response)
 
 To understand exactly what "structuring on the server" means under the hood, we have to look at what a React component actually is.
 
@@ -141,3 +111,80 @@ In modern Next.js (the App Router), by default, yes. Every component is a Server
 However, if a component needs browser-only features—like listening for window resizing, managing local UI toggle states (useState), or handling click events (onClick)—you mark the top of that file with the directive: "use client".
 
 When Next.js sees "use client", it still pre-renders the initial structural HTML on the server so the user doesn't see a blank spot, but it leaves a note saying, "Leave this part flexible, because the browser needs to hook up interactive JavaScript to it later."
+
+React Server Components :
+
+NextJs works on React server components which means the pages are rendered only on the server and never on the client. The page.js file inside app is example for this. We have put "Executing..." in console but you can see that it comes from server and not from client.
+
+Thus, these are components that are rendered and converted to html in server and then send to the browser
+
+Server vs Client Components: (AI's response)
+
+When you add "use client" at the top of a file, you are telling Next.js: "Hey, treat this component and everything imported inside it as part of the Client Bundle."
+
+Everything else above or outside that component remains a Server Component and is structured entirely on the server.
+
+Exactly How It's Processed: Step-by-Step
+Let's look at a practical example. Imagine your home page layout has three sections:
+
+Plaintext
+app/page.js (Server Component)
+├── <Header />        (Server Component - Pure HTML)
+├── <HeroBanner />    (Server Component - Fetches data from Amplience)
+└── <InteractiveCarousel />  ("use client" - Needs state for clicking slides)
+1. What Happens on the Server:
+Next.js processes the page from top to bottom on the server:
+
+<Header />: Evaluated and turned into raw HTML structure.
+
+<HeroBanner />: Next.js fetches data from Amplience, runs the logic, and bakes it into raw HTML structure.
+
+<InteractiveCarousel /> (The "use client" one): Next.js still runs it on the server to create a non-interactive, static HTML snapshot (a placeholder) so the user doesn't see a blank hole while the page loads.
+
+The server streams this combined HTML file to the browser.
+
+2. What Happens in the Browser (Client-Side Execution):
+When the browser loads the page, the user instantly sees the text and layout of the entire page (including the Carousel placeholder). Then, the client-side execution kicks in:
+
+The browser skips the <Header /> and <HeroBanner /> because their work is completely finished. They are already standard HTML.
+
+The browser downloads the small JavaScript bundle specifically for the <InteractiveCarousel />.
+
+React executes inside the browser, mounts the interactive logic (useState, onClick loops) onto that specific carousel placeholder, and takes control of its structure moving forward.
+
+Why this is a Massive Win for Performance
+In a traditional pure React app, if you wanted a carousel, the browser had to structure the entire page just to make that one carousel work.
+
+With Next.js's hybrid approach:
+
+Your heavy backend components (like fetching 50 links for a dropdown menu or pulling heavy data payloads from Amplience) happen entirely on the server. The user's browser never downloads that backend logic.
+
+The browser only executes JavaScript for the specific, isolated components that actually need interactivity.
+
+So, to answer your question perfectly: Yes. The server structures the layout for the entire page (including an initial static snapshot of the client component), and then the browser steps in to dynamically execute and manage the "use client" component when the page comes alive!
+
+File Based Routing:
+In File Based routing under the app folder create a folder and create a file page.js (Naming page.js is mandatory as it creates new route). Now search for http://localhost:3000/awesome, you'll get the output coded in page.js file.
+
+SSR : 
+
+In nextjs components are loaded in server side itself and are provided to browser so page loading is fast here and SEO is achieved as when user searches for any content in our page our page shows up as content is already loaded in server search engine crawlers fetches them and displays our page. Whereas in React only apps a part of html file is sent to browser and from there React builds the page and hence sometimes our page will be loaded and then comes up
+
+Navigating between pages:
+
+In NextJs when we navigate to a different page by clicking any link, then we get to the new page that is already pre rendered on the server and then client side receives and renders the to be rendered HTML code. This is possible by using Link component imported from next/link. If we use <a> tag then we go out of single page application and hard reload of page happens from server side. Whenever we click refresh icon in browser and if we see cross icon then it indicates hard reload of page
+
+Dynamic Routes:
+
+Add a closed bracket, named as placeholder (Eg : [slug], the page.js inside this will show same page for two routes, post-1 and post-2) and under that create your dynamic routes that will take you to the main route. 
+NextJs also provides a special prop here which is a params so that we can know on which route we are currently
+
+Layout file in NextJs: 
+In Next.js (specifically in the modern App Router), a layout.js file is a special file used to define a shared, reusable UI hierarchy across multiple pages in your application.
+
+Think of it as a master template. Instead of copying and pasting your <Header />, <Sidebar />, or <Footer /> components onto every single page, you define them once in a layout, and Next.js wraps your pages inside it automatically.
+
+Image:
+This is an inbuilt Image component in NextJs, If we are using it then NextJs Lazy loads our image, i.e, it will be fetched only if it is shown. If we have any main image in header that needs to be shown everytime, set priority property, this does not lazy load our image and LCP will be efficient in this case.
+
+
