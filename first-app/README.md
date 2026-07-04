@@ -73,6 +73,9 @@ In Next.js (specifically in the modern App Router), a layout.js file is a specia
 
 Think of it as a master template. Instead of copying and pasting your <Header />, <Sidebar />, or <Footer /> components onto every single page, you define them once in a layout, and Next.js wraps your pages inside it automatically.
 
+Image:
+This is an inbuilt Image component in NextJs, If we are using it then NextJs Lazy loads our image, i.e, it will be fetched only if it is shown. If we have any main image in header that needs to be shown everytime, set priority property, this does not lazy load our image and LCP will be efficient in this case.
+
 Difference between React and NextJs:
 
 To understand exactly what "structuring on the server" means under the hood, we have to look at what a React component actually is.
