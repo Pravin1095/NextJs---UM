@@ -11,4 +11,5 @@ export default function Meals(){
             </p>
         </>
     )
+    // Share is subroute of meal whereas dynamic1 and 2 are dynamicroutes of meal
 }

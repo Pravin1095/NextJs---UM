@@ -68,6 +68,11 @@ Dynamic Routes:
 Add a closed bracket, named as placeholder (Eg : [slug], the page.js inside this will show same page for two routes, post-1 and post-2) and under that create your dynamic routes that will take you to the main route. 
 NextJs also provides a special prop here which is a params so that we can know on which route we are currently
 
+Layout file in NextJs: 
+In Next.js (specifically in the modern App Router), a layout.js file is a special file used to define a shared, reusable UI hierarchy across multiple pages in your application.
+
+Think of it as a master template. Instead of copying and pasting your <Header />, <Sidebar />, or <Footer /> components onto every single page, you define them once in a layout, and Next.js wraps your pages inside it automatically.
+
 Difference between React and NextJs:
 
 To understand exactly what "structuring on the server" means under the hood, we have to look at what a React component actually is.
