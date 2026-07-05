@@ -23,3 +23,6 @@ If another user refreshes the page a fraction of a second later, the whole proce
 Data Cache: 
 
 With Data Cache, we have two configurations force-cache and no-store. Force cache is aggressive caching that initially fetches response from server and always provides response from cahche thereafter until we give the info to the cache that the response value is changed.
+With no-store, we tell Nextjs that at that point of time that particular response should not be cached. 
+We also have a configuration of revalidate that will tell the response to validate the cache once after certain time that we provide in the revalidate
+If we do not want cache for one component we use unstable_nocache function
