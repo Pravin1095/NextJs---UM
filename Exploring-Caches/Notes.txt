@@ -1,0 +1,21 @@
+Request Memoization :
+
+"Request Memoization is a mechanism that de-duplicates identical requests (same URL and options) only during a single server render pass (a single lifecycle request). Once the page finishes rendering and is sent to the browser, this memory cache is completely wiped out."
+
+Imagine you are building a page layout. Your <Navbar /> needs the current logged-in user's profile picture, your <Sidebar /> needs the user's name, and the main <ProfilePage /> needs the user's full details.
+
+Instead of fetching the user from your database/CMS once at the top level and passing it down through 10 layers of components as props (Prop Drilling), Request Memoization allows you to call the exact same fetch function in all three components safely.
+
+JavaScript
+// Inside Navbar.js, Sidebar.js, and ProfilePage.js:
+const user = await fetch('https://api.mycms.com/user/pravin'); 
+What happens during that one user request:
+Component 1 (Navbar) executes: Next.js sees the fetch, hits your database/CMS across the network, returns the data, and stores a copy of the network promise in temporary memory.
+
+Component 2 (Sidebar) executes: Next.js sees the identical fetch. Instead of crossing the network again, it takes a Cache HIT from that temporary memory instantly.
+
+Component 3 (ProfilePage) executes: Another instant Cache HIT.
+
+The page finishes rendering: Next.js sends the fully built HTML to the user's browser, and the entire memoization cache is instantly destroyed.
+
+If another user refreshes the page a fraction of a second later, the whole process starts completely fresh.
